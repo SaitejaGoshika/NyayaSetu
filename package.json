@@ -1,0 +1,13 @@
+{
+  "name": "nyayasetu",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": ["frontend"],
+  "scripts": {
+    "dev": "npm run dev --workspace frontend",
+    "build": "npm run build --workspace frontend",
+    "lint": "npm run lint --workspace frontend",
+    "dev:backend": "python -m uvicorn backend.main:app --reload --reload-dir backend --env-file backend/.env",
+    "test:backend": "python -m pytest backend/tests -q"
+  }
+}

@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f3f6f3;
+  --foreground: #17241f;
+  --surface: #ffffff;
+  --muted: #718078;
+  --line: #dce5df;
+  --green: #17684f;
+  --green-dark: #104c3b;
+  --mint: #e8f2ec;
+  --lime: #d7ed87;
+  --coral: #e87558;
+  --blue: #477aa0;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-green: var(--green);
+  --color-green-dark: var(--green-dark);
+  --color-mint: var(--mint);
+  --color-lime: var(--lime);
+  --color-coral: var(--coral);
+  --color-blue: var(--blue);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), sans-serif;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+::selection {
+  background: #d7ed87;
+  color: #17241f;
+}
+
+.rise-in {
+  animation: rise-in 420ms ease both;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  body {
+    min-width: 0;
+    background: #fff;
+  }
+
+  aside,
+  header,
+  button {
+    display: none !important;
+  }
+
+  main {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+
+  .rise-in {
+    animation: none !important;
+  }
+}

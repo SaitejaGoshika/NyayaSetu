@@ -11,8 +11,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from backend.api.routes import api_router, auth_router
-from backend.ml.predictor import case_predictor
+from backend.api.routes import api_router, auth_router, public_router
 from backend.services.errors import ExtractionError
 from backend.services.database import initialize_database
 
@@ -30,7 +29,6 @@ def configured_origins() -> Sequence[str]:
 @asynccontextmanager
 async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
     initialize_database()
-    case_predictor.load()
     yield
 
 
@@ -46,10 +44,11 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=list(configured_origins()),
     allow_credentials=True,
-    allow_methods=["GET", "POST"],
+    allow_methods=["GET", "POST", "DELETE"],
     allow_headers=["Authorization", "Content-Type"],
     max_age=600,
 )
+app.include_router(public_router)
 app.include_router(api_router)
 app.include_router(auth_router)
 

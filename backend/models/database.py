@@ -18,6 +18,20 @@ CREATE TABLE IF NOT EXISTS documents (
     status TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS analyses (
+    id TEXT PRIMARY KEY,
+    document_id TEXT NOT NULL REFERENCES documents(document_id) ON DELETE CASCADE,
+    owner_uid TEXT NOT NULL,
+    rules_version TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+    extracted_text TEXT NOT NULL,
+    findings_json TEXT NOT NULL,
+    UNIQUE(document_id, owner_uid, rules_version)
+);
+
 CREATE INDEX IF NOT EXISTS idx_documents_owner_created
 ON documents(owner_uid, created_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_analyses_document_owner
+ON analyses(document_id, owner_uid, rules_version);
 """

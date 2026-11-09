@@ -1,0 +1,261 @@
+- id: rule-1
+  title: Lock-in or exit-cost clause
+  category: commercial
+  severity: medium
+  patterns:
+    - "lock-in period"
+    - "minimum commitment"
+    - "early termination fee"
+    - "termination penalty"
+  legal_basis: "Indian Contract Act, 1872, including Sections 27 and 74 where applicable"
+  explanation: "This wording may constrain exit or impose a termination amount. Enforceability depends on the clause, consideration, facts, and applicable law; review the duration and calculation method."
+  what_to_ask: "What is the duration, the trigger for the charge, and whether the payment is a genuine estimate of loss?"
+  status: draft
+  reviewed_by: null
+  reviewed_on: null
+  needs_citation_check: true
+  examples_positive:
+    - "A 12-month lock-in period applies."
+    - "The supplier shall pay an early termination fee of 10% of the remaining fees."
+  examples_negative:
+    - "Either party may terminate on 30 days' written notice."
+    - "The service fee is payable as invoiced and there is no additional termination charge."
+
+- id: rule-2
+  title: One-sided termination right
+  category: termination
+  severity: medium
+  patterns:
+    - "at its sole discretion"
+    - "without cause"
+    - "terminate.*at its sole discretion"
+    - "without assigning any reason"
+    - "cancel.*without assigning any reason"
+  legal_basis: "Indian Contract Act, 1872; interpretation depends on the full agreement"
+  explanation: "The clause appears to give one party a broad exit right. Compare notice, cure periods, accrued payment, and termination rights for both parties."
+  what_to_ask: "What notice is required, what are the cure rights, and are both parties treated symmetrically?"
+  status: draft
+  reviewed_by: null
+  reviewed_on: null
+  needs_citation_check: true
+  examples_positive:
+    - "The supplier may terminate this agreement at its sole discretion without cause."
+    - "Either party may cancel the contract without assigning any reason."
+  examples_negative:
+    - "Either party may terminate on 30 days' written notice for material breach."
+    - "Termination requires a 15-day cure period and mutual agreement."
+
+- id: rule-3
+  title: GST compliance reference
+  category: tax
+  severity: low
+  patterns:
+    - "GSTIN"
+    - "GST registration"
+    - "GST invoice"
+    - "tax invoice"
+    - "input tax credit"
+    - "goods and services tax"
+  legal_basis: "Central Goods and Services Tax Act, 2017, including Sections 16 and 31 where applicable"
+  explanation: "The agreement references GST or tax documentation. Verify GSTIN details, invoice requirements, tax allocation, and input tax credit conditions with a qualified tax professional."
+  what_to_ask: "Which party is responsible for GST registration, invoice format, and tax input credit verification?"
+  status: draft
+  reviewed_by: null
+  reviewed_on: null
+  needs_citation_check: false
+  examples_positive:
+    - "Supplier will issue a GST tax invoice."
+    - "The buyer is required to provide GST registration details."
+  examples_negative:
+    - "The contract is silent on tax matters and no invoice terms are specified."
+    - "The parties agree to keep commercial terms confidential."
+
+- id: msme-payment
+  title: Payment term may exceed 45 days
+  category: payment
+  severity: high
+  patterns:
+    - "payment.*60 days"
+    - "net 60"
+    - "payment.*2 months"
+  legal_basis: "MSMED Act, 2006, Sections 15-16"
+  explanation: "For a qualifying micro or small enterprise supplier, the agreed payment period may exceed the MSMED Act screening threshold of 45 days. Confirm supplier eligibility and the applicable start date."
+  what_to_ask: "Is the supplier eligible under the MSMED Act, and what is the actual acceptance date for the invoice?"
+  status: draft
+  reviewed_by: null
+  reviewed_on: null
+  needs_citation_check: true
+  examples_positive:
+    - "Payment is due in sixty (60) days from acceptance."
+    - "Invoices are due net 60 days from acceptance."
+    - "Buyer shall pay in 2 months."
+  examples_negative:
+    - "The supplier may terminate on 90 days' notice and invoices are payable monthly."
+    - "Payment is due within 45 working days from acceptance."
+
+- id: uncapped-liability
+  title: Uncapped liability or broad indemnity
+  category: risk-allocation
+  severity: medium
+  patterns:
+    - "uncapped liability"
+    - "all losses"
+    - "liability.*without limit"
+    - "indemnify.*all claims"
+  legal_basis: "Indian Contract Act, 1872, ss. 124-125 where relevant"
+  explanation: "The clause appears to impose liability without a meaningful cap or to indemnify against broad categories of loss. Review the scope, carve-outs, and whether risk allocation is commercially balanced."
+  what_to_ask: "What is the actual cap, if any, and which categories of loss are covered?"
+  status: draft
+  reviewed_by: null
+  reviewed_on: null
+  needs_citation_check: true
+  examples_positive:
+    - "The supplier shall indemnify the buyer against all losses, damages and liabilities arising from any claim."
+    - "The party shall be liable for all losses, whether direct, indirect, incidental or consequential, without cap."
+  examples_negative:
+    - "The liability cap is ₹10 lakh or 100% of fees, whichever is lower."
+    - "The indemnity is limited to third-party claims arising from the supplier's negligence."
+
+- id: liquidated-damages
+  title: Penalty or liquidated damages provision
+  category: remedies
+  severity: medium
+  patterns:
+    - "liquidated damages"
+    - "penalty"
+    - "delay damages"
+    - "damages.*without proof of loss"
+  legal_basis: "Indian Contract Act, 1872, s. 74 where relevant"
+  explanation: "The clause may impose a fixed sum or hard damages without a clear relationship to actual loss. Review whether the amount is a genuine pre-estimate and whether it is enforceable."
+  what_to_ask: "How was the amount calculated, and is it a genuine pre-estimate of loss or a penalty?"
+  status: draft
+  reviewed_by: null
+  reviewed_on: null
+  needs_citation_check: true
+  examples_positive:
+    - "In the event of delay, the contractor shall pay liquidated damages equal to 10% of the total contract value."
+    - "A penalty of ₹5 lakh shall be payable for each missed milestone."
+  examples_negative:
+    - "The parties agree to reasonable compensation for proven actual loss."
+    - "The service provider may recover only documented out-of-pocket costs."
+
+- id: non-compete
+  title: Post-termination non-compete or non-solicit
+  category: restraint
+  severity: medium
+  patterns:
+    - "non-compete"
+    - "non-solicit"
+    - "solicit customers"
+    - "solicit.*employees"
+    - "post-termination.*restrict"
+    - "not compete"
+  legal_basis: "Indian Contract Act, 1872, s. 27 where relevant"
+  explanation: "A post-termination restraint may be unenforceable if it is overly broad in scope, geography, or duration. Review the practical necessity and the protected interests."
+  what_to_ask: "Is the restraint limited to legitimate protection of trade secrets, customers, or staff, and for how long?"
+  status: draft
+  reviewed_by: null
+  reviewed_on: null
+  needs_citation_check: true
+  examples_positive:
+    - "For 12 months following termination, the consultant shall not compete with the company in the same city."
+    - "The employee shall not solicit customers or employees of the company for 2 years after the end of employment."
+  examples_negative:
+    - "The employee shall comply with confidentiality obligations and return company property."
+    - "The contractor is restricted from using confidential information after completion."
+
+- id: auto-renewal
+  title: Auto-renewal or evergreen term
+  category: commercial
+  severity: medium
+  patterns:
+    - "auto-renew"
+    - "automatically renew"
+    - "evergreen"
+    - "renew.*unless terminated"
+    - "renew.*unless either party"
+  legal_basis: "General contract risk — no specific statute cited"
+  explanation: "The agreement appears to renew automatically unless a party acts, which can create silent continuation risk and commercial lock-in. Review notice windows and termination mechanics."
+  what_to_ask: "What notice period is required to opt out, and how will the parties be reminded of renewal?"
+  status: draft
+  reviewed_by: null
+  reviewed_on: null
+  needs_citation_check: false
+  examples_positive:
+    - "The agreement shall automatically renew for successive periods of 12 months unless either party gives 30 days' written notice."
+    - "This contract is evergreen and continues until terminated by either party."
+  examples_negative:
+    - "The term expires after 12 months and the parties may negotiate a renewal if desired."
+    - "The agreement is for a fixed 1-year term and ends on expiry after the final anniversary date."
+
+- id: sole-arbitrator
+  title: Sole arbitrator or exclusive jurisdiction clause
+  category: dispute-resolution
+  severity: medium
+  patterns:
+    - "sole arbitrator"
+    - "arbitrator.*appointed by one party"
+    - "exclusive jurisdiction"
+  legal_basis: "Arbitration and Conciliation Act, 1996"
+  explanation: "The clause may limit dispute resolution to a single arbitrator or a single forum, potentially creating procedural imbalance. Review neutrality, appointment mechanics, and seat/venue."
+  what_to_ask: "Who appoints the arbitrator, what is the seat and venue, and is there any fair process for challenge or replacement?"
+  status: draft
+  reviewed_by: null
+  reviewed_on: null
+  needs_citation_check: true
+  examples_positive:
+    - "The parties agree that a sole arbitrator appointed by the supplier shall decide all disputes."
+    - "The courts in Mumbai shall have exclusive jurisdiction."
+  examples_negative:
+    - "The dispute shall be resolved by mutual consultation followed by arbitration under the Arbitration and Conciliation Act, 1996."
+    - "Either party may approach the competent court in the relevant jurisdiction."
+
+- id: waiver-interest
+  title: Waiver or reduction of interest on delayed payment
+  category: payment
+  severity: medium
+  patterns:
+    - "waiver of interest"
+    - "waived.*interest"
+    - "interest.*waived"
+    - "reduction.*interest"
+    - "reduced to 0%"
+    - "interest.*shall not accrue"
+  legal_basis: "MSMED Act, 2006, s. 16 where the supplier is eligible"
+  explanation: "The clause may reduce or waive interest on delayed payment even where the supplier may qualify for statutory protection. Check the supplier's status and the actual payment chronology."
+  what_to_ask: "Is the supplier eligible under the MSMED Act, and does the clause waive or limit any statutory interest?"
+  status: draft
+  reviewed_by: null
+  reviewed_on: null
+  needs_citation_check: true
+  examples_positive:
+    - "Any interest on delayed payment shall be waived by the supplier."
+    - "Interest shall be reduced to 0% if the invoice is disputed."
+  examples_negative:
+    - "The buyer shall pay statutory interest at the prevailing rate for delayed payment."
+    - "The parties agree that the seller may charge interest under applicable law."
+
+- id: unilateral-change
+  title: Unilateral right to change terms without notice
+  category: variation
+  severity: medium
+  patterns:
+    - "may amend.*at any time"
+    - "change.*terms.*at any time"
+    - "amend this agreement without consent"
+    - "unilateral.*change"
+    - "without notice.*change terms"
+    - "with no prior notice"
+  legal_basis: "General contract risk — no specific statute cited"
+  explanation: "The clause appears to let one party change contract terms without a clear notice or consent process. Review the sequencing, notice, and whether the change is commercially fair."
+  what_to_ask: "What notice is required, what can be changed, and is there a right to refuse unfair amendments?"
+  status: draft
+  reviewed_by: null
+  reviewed_on: null
+  needs_citation_check: false
+  examples_positive:
+    - "The buyer may change the terms and conditions at any time with no prior notice."
+    - "The supplier reserves the right to amend this agreement without consent from the customer."
+  examples_negative:
+    - "Either party may propose changes by written notice and the agreement will be amended only by mutual written consent."
+    - "Changes require prior written notice and a reasonable opportunity to object."

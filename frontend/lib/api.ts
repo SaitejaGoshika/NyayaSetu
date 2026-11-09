@@ -1,11 +1,4 @@
-import type {
-  AnalysisResponse,
-  CasePredictResponse,
-  CasePredictStatus,
-  DocumentRecord,
-  DocumentUploadResponse,
-  SessionUser,
-} from "@/lib/types";
+import type { AnalysisResponse, CompareDocumentsResponse, DocumentRecord, DocumentUploadResponse, SessionUser } from "@/lib/types";
 
 const API_BASE_URL = (process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000").replace(/\/$/, "");
 
@@ -100,14 +93,37 @@ export function listDocuments() {
   return request<DocumentRecord[]>("/api/documents");
 }
 
-export function predictCase(features: Record<string, number>) {
-  return request<CasePredictResponse>("/api/predict", {
+export function downloadDocument(documentId: string) {
+  const url = `${API_BASE_URL}/api/documents/${encodeURIComponent(documentId)}/download`;
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.rel = "noopener";
+  anchor.style.display = "none";
+  document.body.appendChild(anchor);
+  anchor.click();
+  document.body.removeChild(anchor);
+}
+
+export function deleteDocument(documentId: string) {
+  return request<void>(`/api/documents/${encodeURIComponent(documentId)}`, { method: "DELETE" });
+}
+
+export function compareDocuments(primaryDocumentId: string, secondaryDocumentId: string) {
+  return request<CompareDocumentsResponse>("/api/compare", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ features }),
+    body: JSON.stringify({ primaryDocumentId, secondaryDocumentId }),
   });
 }
 
-export function getCasePredictStatus() {
-  return request<CasePredictStatus>("/api/predict/status");
+export function exportDocumentReport(documentId: string, format: "pdf" | "docx") {
+  const url = `${API_BASE_URL}/api/analyze/${encodeURIComponent(documentId)}/report?format=${encodeURIComponent(format)}`;
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.rel = "noopener";
+  anchor.target = "_blank";
+  anchor.style.display = "none";
+  document.body.appendChild(anchor);
+  anchor.click();
+  document.body.removeChild(anchor);
 }

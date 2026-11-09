@@ -7,6 +7,13 @@ export interface RiskFinding {
   legalBasis: string;
   explanation: string;
   matchText: string;
+  start: number;
+  end: number;
+  clauseIndex?: number | null;
+  status?: string | null;
+  reviewedBy?: string | null;
+  whatToAsk?: string | null;
+  needsCitationCheck?: boolean;
 }
 
 export interface AnalysisResponse {
@@ -14,6 +21,7 @@ export interface AnalysisResponse {
   filename: string;
   extractedText: string;
   findings: RiskFinding[];
+  rulesVersion: string;
 }
 
 export interface DocumentUploadResponse {
@@ -29,18 +37,36 @@ export interface DocumentRecord {
   status: string;
 }
 
-export interface CasePredictResponse {
-  classes: string[];
-  probabilities: number[];
-}
-
-export interface CasePredictStatus {
-  available: boolean;
-  message: string;
-}
-
 export interface SessionUser {
   uid: string;
   email: string;
   displayName: string;
+}
+
+export interface ComparisonFinding {
+  id: string;
+  title: string;
+  riskLevel: RiskLevel;
+  legalBasis: string;
+  explanation: string;
+  matchText: string;
+  clauseIndex?: number | null;
+  changeType: string;
+}
+
+export interface ComparisonClause {
+  clauseIndex: number;
+  primaryClause: string;
+  secondaryClause: string;
+  changeType: string;
+}
+
+export interface CompareDocumentsResponse {
+  primaryDocumentId: string;
+  secondaryDocumentId: string;
+  newFindings: ComparisonFinding[];
+  removedFindings: ComparisonFinding[];
+  unchangedFindings: ComparisonFinding[];
+  severityChanged: ComparisonFinding[];
+  changedClauses: ComparisonClause[];
 }

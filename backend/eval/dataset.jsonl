@@ -1,0 +1,20 @@
+{"text": "Payment is due in sixty (60) days from acceptance.", "label": "msme-payment", "provenance": "synthetic"}
+{"text": "Invoices are due net 60 days from acceptance.", "label": "msme-payment", "provenance": "synthetic"}
+{"text": "The supplier may terminate on 90 days' notice and invoices are payable monthly.", "label": "none", "provenance": "synthetic"}
+{"text": "Payment is due within 45 working days from acceptance.", "label": "none", "provenance": "synthetic"}
+{"text": "The supplier shall indemnify the buyer against all losses, damages and liabilities arising from any claim.", "label": "uncapped-liability", "provenance": "synthetic"}
+{"text": "The liability cap is ₹10 lakh or 100% of fees, whichever is lower.", "label": "none", "provenance": "synthetic"}
+{"text": "A penalty of ₹5 lakh shall be payable for each missed milestone.", "label": "liquidated-damages", "provenance": "synthetic"}
+{"text": "The parties agree to reasonable compensation for proven actual loss.", "label": "none", "provenance": "synthetic"}
+{"text": "For 12 months following termination, the consultant shall not compete with the company in the same city.", "label": "non-compete", "provenance": "synthetic"}
+{"text": "The employee shall comply with confidentiality obligations and return company property.", "label": "none", "provenance": "synthetic"}
+{"text": "The agreement shall automatically renew for successive periods of 12 months unless either party gives 30 days' written notice.", "label": "auto-renewal", "provenance": "synthetic"}
+{"text": "The term expires after 12 months and the parties may negotiate a renewal if desired.", "label": "none", "provenance": "synthetic"}
+{"text": "The parties agree that a sole arbitrator appointed by the supplier shall decide all disputes.", "label": "sole-arbitrator", "provenance": "synthetic"}
+{"text": "Either party may approach the competent court in the relevant jurisdiction.", "label": "none", "provenance": "synthetic"}
+{"text": "Any interest on delayed payment shall be waived by the supplier.", "label": "waiver-interest", "provenance": "synthetic"}
+{"text": "The buyer shall pay statutory interest at the prevailing rate for delayed payment.", "label": "none", "provenance": "synthetic"}
+{"text": "The buyer may change the terms and conditions at any time with no prior notice.", "label": "unilateral-change", "provenance": "synthetic"}
+{"text": "Changes require prior written notice and a reasonable opportunity to object.", "label": "none", "provenance": "synthetic"}
+{"text": "The buyer may change the terms and conditions at any time with no prior notice.", "label": "unilateral-change", "provenance": "synthetic"}
+{"text": "The agreement is for a fixed 1-year term and ends on expiry without auto-renewal.", "label": "none", "provenance": "synthetic"}

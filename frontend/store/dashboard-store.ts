@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 import type { AnalysisResponse } from "@/lib/types";
 
-export type DashboardSection = "overview" | "scanner" | "predictor" | "case-desk" | "court-readiness" | "library" | "vault";
+export type DashboardSection = "overview" | "scanner" | "judgment-reader" | "case-desk" | "court-readiness" | "library" | "vault";
 
 interface DashboardState {
   activeSection: DashboardSection;

@@ -35,7 +35,7 @@ import { ResultsView } from "@/components/results-view";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { analyzeDocument, listDocuments } from "@/lib/api";
+import { analyzeDocument, deleteDocument, downloadDocument, listDocuments } from "@/lib/api";
 import type { AnalysisResponse, DocumentRecord } from "@/lib/types";
 import { useDashboardStore, type DashboardSection } from "@/store/dashboard-store";
 
@@ -48,7 +48,7 @@ interface NavigationItem {
 const navigation: NavigationItem[] = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
   { id: "scanner", label: "Contract scanner", icon: FileCheck2 },
-  { id: "predictor", label: "Judgment reader", icon: Scale },
+  { id: "judgment-reader", label: "Judgment reader", icon: Scale },
   { id: "case-desk", label: "Case desk", icon: ClipboardList },
   { id: "court-readiness", label: "Court readiness", icon: ClipboardCheck },
   { id: "library", label: "Law library", icon: BookOpen },
@@ -58,7 +58,7 @@ const navigation: NavigationItem[] = [
 const sectionTitle: Record<DashboardSection, string> = {
   overview: "Overview",
   scanner: "Contract scanner",
-  predictor: "Judgment reader",
+  "judgment-reader": "Judgment reader",
   "case-desk": "Case desk",
   "court-readiness": "Court readiness",
   library: "Law library",
@@ -120,6 +120,24 @@ export default function Dashboard() {
       setDocumentErrorState({ uid: user.uid, message: error instanceof Error ? error.message : "The document could not be opened." });
     } finally {
       setOpeningId("");
+    }
+  }
+
+  async function handleDelete(documentId: string) {
+    if (!user) return;
+    const confirmed = window.confirm(`Delete "${documents.find((item) => item.documentId === documentId)?.filename ?? "this document"}"? This cannot be undone.`);
+    if (!confirmed) return;
+    try {
+      await deleteDocument(documentId);
+      setDocumentSnapshot((current) => {
+        if (!current || current.uid !== user.uid) return current;
+        return { ...current, documents: current.documents.filter((document) => document.documentId !== documentId) };
+      });
+      if (analysis?.documentId === documentId) {
+        setAnalysis(null);
+      }
+    } catch (error) {
+      setDocumentErrorState({ uid: user.uid, message: error instanceof Error ? error.message : "The document could not be deleted." });
     }
   }
 
@@ -188,7 +206,7 @@ export default function Dashboard() {
                 <Card className="overflow-hidden">
                   <div className="flex items-center justify-between border-b border-line px-5 py-4"><div><h3 className="text-sm font-semibold">Recent documents</h3><p className="mt-1 text-[11px] text-muted">Your account&apos;s stored files</p></div><Button aria-label="Open secure vault" onClick={() => navigate("vault")} size="icon" title="Open secure vault" variant="ghost"><Archive size={16} /></Button></div>
                   <div className="divide-y divide-line">
-                    {!user ? <EmptyDocuments message="Sign in to see documents in your vault." /> : documentsLoading ? <div className="px-5 py-8 text-center text-xs text-muted">Loading your documents...</div> : documents.length ? documents.slice(0, 5).map((document) => <DocumentRow document={document} key={document.documentId} loading={openingId === document.documentId} onOpen={() => void openDocument(document.documentId)} />) : <EmptyDocuments message={documentError || "Your vault is ready for its first document."} />}
+                    {!user ? <EmptyDocuments message="Sign in to see documents in your vault." /> : documentsLoading ? <div className="px-5 py-8 text-center text-xs text-muted">Loading your documents...</div> : documents.length ? documents.slice(0, 5).map((document) => <DocumentRow document={document} key={document.documentId} loading={openingId === document.documentId} onDelete={() => void handleDelete(document.documentId)} onDownload={() => downloadDocument(document.documentId)} onOpen={() => void openDocument(document.documentId)} />) : <EmptyDocuments message={documentError || "Your vault is ready for its first document."} />}
                   </div>
                   {documents.length > 5 && <button className="flex w-full items-center justify-center gap-1 border-t border-line py-3 text-xs font-medium text-green hover:bg-[#f7faf7]" onClick={() => navigate("vault")} type="button">View all documents<ArrowUpRight size={13} /></button>}
                 </Card>
@@ -213,7 +231,7 @@ export default function Dashboard() {
             )
           )}
 
-          {activeSection === "predictor" && <JudgmentReaderPanel />}
+          {activeSection === "judgment-reader" && <JudgmentReaderPanel />}
 
           {activeSection === "case-desk" && <CaseDesk />}
 
@@ -226,7 +244,7 @@ export default function Dashboard() {
               <div className="mb-6 flex flex-wrap items-end justify-between gap-3"><div><p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-green">Secure vault</p><h2 className="mt-1 text-2xl font-semibold">Your document history</h2><p className="mt-1.5 text-sm text-muted">Documents are scoped to your local account.</p></div><Badge variant="neutral"><FolderLock size={13} />{user ? `${documents.length} documents` : "Sign in required"}</Badge></div>
               {documentError && <p className="mb-4 rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-800" role="alert">{documentError}</p>}
               <Card className="overflow-hidden">
-                {!user ? <EmptyDocuments message="Sign in to securely view your document history." /> : documentsLoading ? <div className="p-10 text-center text-sm text-muted">Loading your secure vault...</div> : documents.length ? <div className="divide-y divide-line">{documents.map((document) => <DocumentRow document={document} key={document.documentId} loading={openingId === document.documentId} onOpen={() => void openDocument(document.documentId)} />)}</div> : <EmptyDocuments message="No documents in your vault yet. Upload a PDF or DOCX to get started." />}
+                {!user ? <EmptyDocuments message="Sign in to securely view your document history." /> : documentsLoading ? <div className="p-10 text-center text-sm text-muted">Loading your secure vault...</div> : documents.length ? <div className="divide-y divide-line">{documents.map((document) => <DocumentRow document={document} key={document.documentId} loading={openingId === document.documentId} onDelete={() => void handleDelete(document.documentId)} onDownload={() => downloadDocument(document.documentId)} onOpen={() => void openDocument(document.documentId)} />)}</div> : <EmptyDocuments message="No documents in your vault yet. Upload a PDF or DOCX to get started." />}
               </Card>
               <p className="mt-3 text-xs text-muted">History is stored in SQLite. Document files are kept in the local data directory.</p>
             </section>
@@ -245,12 +263,28 @@ function EmptyDocuments({ message }: { message: string }) {
   return <div className="grid min-h-36 place-items-center px-6 py-8 text-center"><div><div className="mx-auto mb-2 grid size-9 place-items-center rounded-full bg-[#f1f5f2] text-muted"><FolderLock size={16} /></div><p className="max-w-xs text-xs leading-5 text-muted">{message}</p></div></div>;
 }
 
-function DocumentRow({ document, loading, onOpen }: { document: DocumentRecord; loading: boolean; onOpen: () => void }) {
+function DocumentRow({
+  document,
+  loading,
+  onDelete,
+  onDownload,
+  onOpen,
+}: {
+  document: DocumentRecord;
+  loading: boolean;
+  onDelete: () => void;
+  onDownload: () => void;
+  onOpen: () => void;
+}) {
   return (
     <div className="flex items-center gap-3 px-4 py-3.5 sm:px-5">
       <div className="grid size-9 shrink-0 place-items-center rounded-md bg-[#f2f6f3] text-green"><FileText size={16} /></div>
       <div className="min-w-0 flex-1"><p className="truncate text-xs font-semibold">{document.filename}</p><p className="mt-1 text-[10px] text-muted">{formatDate(document.createdAt)} · {document.status}</p></div>
-      <Button aria-label={`Open ${document.filename}`} disabled={loading} onClick={onOpen} size="icon" title="Open and analyze document" variant="ghost">{loading ? <span className="size-3 animate-spin rounded-full border-2 border-green border-r-transparent" /> : <ArrowDownToLine size={15} />}</Button>
+      <div className="flex items-center gap-1">
+        <Button aria-label={`Download ${document.filename}`} onClick={onDownload} size="icon" title="Download document" variant="ghost"><ArrowDownToLine size={15} /></Button>
+        <Button aria-label={`Delete ${document.filename}`} onClick={onDelete} size="icon" title="Delete document" variant="ghost">X</Button>
+        <Button aria-label={`Open ${document.filename}`} disabled={loading} onClick={onOpen} size="icon" title="Open and analyze document" variant="ghost">{loading ? <span className="size-3 animate-spin rounded-full border-2 border-green border-r-transparent" /> : <ArrowUpRight size={15} />}</Button>
+      </div>
     </div>
   );
 }

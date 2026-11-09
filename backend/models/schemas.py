@@ -1,10 +1,9 @@
 from __future__ import annotations
 
-import math
 from enum import Enum
 from typing import Any
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field
 
 
 def to_camel(value: str) -> str:
@@ -33,6 +32,13 @@ class RiskFinding(ApiModel):
     legal_basis: str
     explanation: str
     match_text: str
+    start: int
+    end: int
+    clause_index: int | None = None
+    status: str | None = None
+    reviewed_by: str | None = None
+    what_to_ask: str | None = None
+    needs_citation_check: bool = False
 
 
 class AnalysisResponse(ApiModel):
@@ -40,6 +46,7 @@ class AnalysisResponse(ApiModel):
     filename: str
     extracted_text: str
     findings: list[RiskFinding]
+    rules_version: str
 
 
 class DocumentUploadResponse(ApiModel):
@@ -55,25 +62,29 @@ class DocumentRecord(ApiModel):
     status: str
 
 
-class CasePredictRequest(ApiModel):
-    features: dict[str, float] = Field(min_length=1, max_length=100)
-
-    @field_validator("features")
-    @classmethod
-    def validate_finite_features(cls, values: dict[str, float]) -> dict[str, float]:
-        if any(not math.isfinite(value) for value in values.values()):
-            raise ValueError("Every feature value must be finite.")
-        return values
-
-
-class CasePredictResponse(ApiModel):
-    classes: list[str]
-    probabilities: list[float]
+class MsmeInterestRequest(BaseModel):
+    amount: float = Field(gt=0)
+    acceptance_date: str
+    has_written_payment_period: bool = False
+    written_payment_period_days: int | None = Field(default=None, ge=0, le=45)
+    payment_date: str | None = None
+    as_of_date: str | None = None
+    bank_rate_percent: float = Field(default=6.5, ge=0)
 
 
-class CasePredictStatus(ApiModel):
-    available: bool
-    message: str
+class MsmeInterestRow(ApiModel):
+    month_label: str
+    days_in_month: int
+    interest: float
+    ending_balance: float
+
+
+class MsmeInterestResponse(ApiModel):
+    due_date: str
+    payment_due_days: int
+    days_delayed: int
+    total_interest: float
+    monthly_breakdown: list[MsmeInterestRow]
 
 
 class SignupRequest(BaseModel):
@@ -108,3 +119,48 @@ class ApiErrorDetail(ApiModel):
 
 class ApiErrorResponse(ApiModel):
     detail: ApiErrorDetail | list[dict[str, Any]]
+
+
+class CompareDocumentsRequest(ApiModel):
+    primary_document_id: str
+    secondary_document_id: str
+
+
+class ComparisonFinding(ApiModel):
+    id: str
+    title: str
+    risk_level: RiskLevel
+    legal_basis: str
+    explanation: str
+    match_text: str
+    clause_index: int | None = None
+    change_type: str
+
+
+class ComparisonClause(ApiModel):
+    clause_index: int
+    primary_clause: str
+    secondary_clause: str
+    change_type: str
+
+
+class CompareDocumentsResponse(ApiModel):
+    primary_document_id: str
+    secondary_document_id: str
+    new_findings: list[ComparisonFinding]
+    removed_findings: list[ComparisonFinding]
+    unchanged_findings: list[ComparisonFinding]
+    severity_changed: list[ComparisonFinding]
+    changed_clauses: list[ComparisonClause]
+
+
+class FindingExplanationRequest(ApiModel):
+    finding_title: str
+    finding_text: str
+    document_text: str
+
+
+class FindingExplanationResponse(ApiModel):
+    explanation: str
+    citations: list[str]
+    grounded: bool

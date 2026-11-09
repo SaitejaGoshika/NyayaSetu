@@ -2,7 +2,7 @@
 
 NyayaSetu is a local-first legal workspace for Indian SMEs and the public. It uses Next.js, FastAPI, SQLite, and local disk storage. It does not require Firebase or a paid cloud account. Rule-based contract findings are screening signals, not legal conclusions.
 
-The workspace includes a contract scanner, a secure document vault, a case-preparation desk, a hearing and mediation readiness checklist, and a searchable introductory library of Indian central Acts and public legal-service links. The case desk turns a user's in-browser notes into a matter-specific document checklist and questions to discuss with an advocate. The readiness checklist can be downloaded or printed locally. Notes and checklist state are not sent to the API or saved by the page. The library links readers to India Code and official court/legal-help services; summaries are educational and may not reflect amendments or local rules.
+The workspace includes a contract scanner, a secure document vault, a case-preparation desk, a hearing and mediation readiness checklist, and a searchable introductory library of Indian central Acts and public legal-service links. The case desk turns a user's in-browser notes into a matter-specific document checklist and questions to discuss with an advocate. The readiness checklist can be downloaded or printed locally. Notes and checklist state are not sent to the API or saved by the page. The library links readers to India Code and official court/legal-help services; summaries are educational and may not reflect amendments or local rules. The project also includes a YAML-driven rule registry, a synthetic evaluation harness, OCR fallback for scanned PDFs, and an MSME delayed-payment estimator for quick screening checks.
 
 ## Requirements
 
